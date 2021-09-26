@@ -38,7 +38,7 @@ async function init() {
 
     require("./src/WebSocketEvents");
     require("./src/scripts/TextDefinitionsParser");
-    // require("./src/items/holdable/spell_books/SpellBooksList");
+    require("./src/dungeon/random/RoomMapsLoader");
     require("./src/ChatWarnings");
 
     // const clanManager = require("./src/ClanManager");
