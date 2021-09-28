@@ -11,7 +11,7 @@ class Buildable extends Breakable {
     constructor(config) {
         super(config);
         // Buildables are special entities that occupy the static slot of the tile they are on, like a
-        // normal static, but are also added to the destroyables list so they can be send dynamically.
+        // normal static, but are also added to the destroyables list so they can be sent dynamically.
         config.board.addStatic(this);
         config.board.addDestroyable(this);
 
@@ -45,6 +45,8 @@ class Buildable extends Breakable {
     }
 
     getEmittableProperties(properties) {
+        properties.id = this.id;
+        properties.typeNumber = this.typeNumber;
         return super.getEmittableProperties(properties);
     }
 

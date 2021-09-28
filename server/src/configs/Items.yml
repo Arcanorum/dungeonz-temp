@@ -1424,3 +1424,11 @@
   translationID: Willow logs
   textureSource: willow-logs
   unitWeight: Logs
+
+# Structures
+
+- name: WoodWall
+  code: RZXR3004
+  extends: Weapon
+  translationID: Wood wall
+  textureSource: pine-logs

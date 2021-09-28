@@ -1,11 +1,17 @@
-// const Sprite = function (x, y, config) {
-//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", "wood-wall");
-//     this.setScale(GAME_SCALE);
+import dungeonz from "../../../shared/Global";
+import gameConfig from "../../../shared/GameConfig";
+import Container from "../Container";
 
-//     this.addDamageMarker();
-// };
+class Entity extends Container {
+    constructor(x, y, config) {
+        super(x, y);
 
-// Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
-// Sprite.prototype.constructor = Sprite;
+        this.setScale(gameConfig.GAME_SCALE);
 
-// export default Sprite;
+        this.baseSprite = dungeonz.gameScene.add.sprite(0, 0, "game-atlas", "wood-wall");
+        this.baseSprite.setOrigin(0.5);
+        this.add(this.baseSprite);
+    }
+}
+
+export default Entity;
