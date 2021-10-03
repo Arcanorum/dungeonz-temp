@@ -1465,3 +1465,9 @@
   extends: Weapon
   translationID: Wood wall
   textureSource: pine-logs
+
+- name: WoodDoor
+  code: MHRE3729
+  extends: Weapon
+  translationID: Wood door
+  textureSource: pine-logs

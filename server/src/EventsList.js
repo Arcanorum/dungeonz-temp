@@ -83,6 +83,7 @@ const EventsList = {
     invalid_login_details: registerEventName(),
     inventory_max_weight: registerEventName(),
     inventory_weight: registerEventName(),
+    interactable_state: registerEventName(),
     item_broken: registerEventName(),
     item_dropped: registerEventName(),
     item_used: registerEventName(),

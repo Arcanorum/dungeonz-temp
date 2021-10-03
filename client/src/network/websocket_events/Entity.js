@@ -231,6 +231,13 @@ export default () => {
         dungeonz.gameScene.tilemap.updateStaticTile(data, false);
     };
 
+    eventResponses.interactable_state = (data) => {
+        const dynamic = dungeonz.gameScene.dynamics[data.id];
+        if (!dynamic) return;
+
+        dynamic.spriteContainer.updateState(data.state);
+    };
+
     eventResponses.change_direction = (data) => {
         // console.log("change_direction:", data);
         // Check the entity id is valid.

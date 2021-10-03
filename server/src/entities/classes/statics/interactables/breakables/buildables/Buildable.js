@@ -47,6 +47,9 @@ class Buildable extends Breakable {
     getEmittableProperties(properties) {
         properties.id = this.id;
         properties.typeNumber = this.typeNumber;
+        if (this.activeState !== undefined) {
+            properties.activeState = this.activeState;
+        }
         return super.getEmittableProperties(properties);
     }
 
@@ -58,15 +61,54 @@ class Buildable extends Breakable {
         // console.log("* WARNING: Buildable entity type defined without overriding Buildable.interaction:", this.typeNumber);
     }
 
-    /**
-     *
-     */
-    activate() {}
+    activate() {
+        let blocked = true;
 
-    /**
-     *
-     */
-    deactivate() {}
+        // Check if there are any other properties on the destroyables object.
+        // Need to do this instead of BoardTile.containsAnyDestroyables as this entity itself is
+        // also a destroyable (and a static).
+        const boardTile = this.getBoardTile();
+        if (Object.keys(boardTile.destroyables).length === 1) blocked = false;
+
+        // Check there are no obstructions on the object before activating it.
+        if (blocked === false) {
+            // Nothing in the way. Reactivate this object.
+            this.activeState = true;
+
+            // Tell any nearby players that this object can now be interacted with.
+            this.board.emitToNearbyPlayers(
+                this.row,
+                this.col,
+                this.EventsList.interactable_state,
+                { id: this.id, state: this.activeState },
+            );
+        }
+        // Something in the way.
+        else {
+            // Restart the timer to activate this object.
+            this.reactivationTimer = setTimeout(
+                this.activate.bind(this),
+                this.reactivationRate || 5000, // Use some time in case it is null.
+            );
+        }
+    }
+
+    deactivate() {
+        this.activeState = false;
+
+        // If a reactivation rate is set, start a timer to reactivate this object.
+        if (this.reactivationRate !== null) {
+            this.reactivationTimer = setTimeout(this.activate.bind(this), this.reactivationRate);
+        }
+
+        // Tell any nearby players that this object has been interacted with.
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.interactable_state,
+            { id: this.id, state: this.activeState },
+        );
+    }
 }
 module.exports = Buildable;
 
